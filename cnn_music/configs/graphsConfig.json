@@ -1,0 +1,31 @@
+{
+	"graphs": [
+		{
+			"name": "mae",
+			"title": "model mae",
+			"ylabel": "mae",
+			"xlabel": "epoch",
+			"legend": ["train", "test"],
+			"legend_location":"upper left",
+			"path": "./graphs/mae.png"
+		},
+		{
+			"name": "accuracy",
+			"title": "model accuracy",
+			"ylabel": "accuracy",
+			"xlabel": "epoch",
+			"legend": ["train", "test"],
+			"legend_location":"upper left",
+			"path": "./graphs/accuracy.png"
+		},
+		{
+			"name": "loss",
+			"title": "model loss",
+			"ylabel": "loss",
+			"xlabel": "epoch",
+			"legend": ["train", "test"],
+			"legend_location":"upper left",
+			"path": "./graphs/loss.png"
+		}
+	]
+}

@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Welcome to CNN-Music’s documentation! &#8212; CNN-Music  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-cnn-music-s-documentation">
+<h1>Welcome to CNN-Music’s documentation!<a class="headerlink" href="#welcome-to-cnn-music-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="indices">
+<h1>Indices<a class="headerlink" href="#indices" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="module-model">
+<span id="model"></span><h1>Model<a class="headerlink" href="#module-model" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="model.get_model">
+<code class="sig-prename descclassname">model.</code><code class="sig-name descname">get_model</code><span class="sig-paren">(</span><em class="sig-param">x: numpy.ndarray</em>, <em class="sig-param">y: numpy.ndarray</em>, <em class="sig-param">parameters: Dict[str</em>, <em class="sig-param">Union[str</em>, <em class="sig-param">int]]) -&gt; (&lt;class 'keras.engine.sequential.Sequential'&gt;</em>, <em class="sig-param">&lt;class 'keras.callbacks.callbacks.History'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#model.get_model" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – list of the groups with selected size sequences</p></li>
+<li><p><strong>y</strong> – array of next values of each squence group</p></li>
+<li><p><strong>parameters</strong> – <ul>
+<li><p>dict with the model configs</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple with a model and history that can be used to generate graphs</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="model.get_model_inputs">
+<code class="sig-prename descclassname">model.</code><code class="sig-name descname">get_model_inputs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">int_notes</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">sequence_length</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>List<span class="p">[</span>int<span class="p">]</span><span class="p">, </span>List<span class="p">[</span>int<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#model.get_model_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>int_notes</strong> – sequence of notes converted to integers</p></li>
+<li><p><strong>sequence_length</strong> – size of the grouped series</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>tuple with list of series groups, and next value to each group</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-predict">
+<span id="predict"></span><h1>Predict<a class="headerlink" href="#module-predict" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="predict.get_new_series">
+<code class="sig-prename descclassname">predict.</code><code class="sig-name descname">get_new_series</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">input</span></em>, <em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">set_size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>int<span class="p">]</span><a class="headerlink" href="#predict.get_new_series" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size</strong> – the size of output series</p></li>
+<li><p><strong>model</strong> – a keras Sequential model</p></li>
+<li><p><strong>set_size</strong> – size of notes set</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>number series with length size</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="predict.predict_next">
+<code class="sig-prename descclassname">predict.</code><code class="sig-name descname">predict_next</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x_input</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">model</span><span class="p">:</span> <span class="n">keras.engine.sequential.Sequential</span></em>, <em class="sig-param"><span class="n">set_size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#predict.predict_next" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_input</strong> – a time series</p></li>
+<li><p><strong>model</strong> – a keras Sequential model</p></li>
+<li><p><strong>set_size</strong> – size of notes set</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the predicted next number on series</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-note">
+<span id="get-notes-and-chords"></span><h1>Get Notes and Chords<a class="headerlink" href="#module-note" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="note.get_int_notes">
+<code class="sig-prename descclassname">note.</code><code class="sig-name descname">get_int_notes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pitchnames</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">notes</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>int<span class="p">]</span><a class="headerlink" href="#note.get_int_notes" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pitchnames</strong> – Set of sorted note names</p></li>
+<li><p><strong>notes</strong> – Sequence of note strings</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of integers representing the notes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="note.get_note_strings">
+<code class="sig-prename descclassname">note.</code><code class="sig-name descname">get_note_strings</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">int_to_note</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">series</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>str<span class="p">]</span><a class="headerlink" href="#note.get_note_strings" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>int_to_note</strong> – Dict to translate integers to note strings</p></li>
+<li><p><strong>series</strong> – Number series representing notes</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of note strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="note.get_notes">
+<code class="sig-prename descclassname">note.</code><code class="sig-name descname">get_notes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_path</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>str<span class="p">]</span><a class="headerlink" href="#note.get_notes" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data_path</strong> – path to midis directory</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of note strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="note.get_pitchnames">
+<code class="sig-prename descclassname">note.</code><code class="sig-name descname">get_pitchnames</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">notes</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>str<span class="p">]</span><a class="headerlink" href="#note.get_pitchnames" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>notes</strong> – List of note strings</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Set of sorted notes</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-graphs">
+<span id="charts"></span><h1>Charts<a class="headerlink" href="#module-graphs" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="graphs.plot_graph">
+<code class="sig-prename descclassname">graphs.</code><code class="sig-name descname">plot_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">history</span><span class="p">:</span> <span class="n">keras.callbacks.callbacks.History</span></em>, <em class="sig-param"><span class="n">graph_desc</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Union<span class="p">[</span>str<span class="p">, </span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#graphs.plot_graph" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>history</strong> – Model history</p></li>
+<li><p><strong>graph_desc</strong> – Dict with graph description</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">CNN-Music</a></h1>
+
+
+
+
+
+
+
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Renato Melo and Victor Baessa.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
