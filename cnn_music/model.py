@@ -11,7 +11,6 @@ from keras.layers import Flatten
 from keras.layers import MaxPooling1D
 from keras.layers import Conv1D
 from keras.callbacks.callbacks import History
-from .note import get_notes, get_pitchnames, get_int_notes
 from typing import Tuple, Dict, Union, List
 
 def get_model(x: ndarray, y: ndarray, parameters: Dict[str, Union[str,int,float]]) -> (Sequential, History):

@@ -14,7 +14,11 @@ def get_notes(data_path: str) -> List[str]:
     """
     notes = []
     for file in glob.glob(data_path):
-        midi = converter.parse(file)
+        try:
+            midi = converter.parse(file)
+        except:
+            print('excecao')
+            continue 
         notes_to_parse = None
         parts = instrument.partitionByInstrument(midi)
         if parts:

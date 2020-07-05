@@ -1,5 +1,4 @@
 from music21 import instrument, stream, note, chord
-from .note import get_notes_chords_list, get_note_strings, get_int_notes
 import numpy
 from numpy import array
 from numpy import ndarray
