@@ -24,31 +24,25 @@ input_parser.add_argument('-c','--config',
         type=str,
         help='path to config json; configs/config.json assumed if not specifyed'
         )
-input_parser.add_argument('-o','--output',
-        metavar='output',
-        type=str,
-        help='path to output; models/model assumed if not specifyed'
-        )
 input_parser.add_argument('-mp','--midipath',
         metavar='\*.mid',
         type=str,
         help='path to mid, you can use \*.mid for all midis on directory; dataset/*.mid assumed if not specifyed'
         )
-print('passou inputs')
 
 args = input_parser.parse_args()
 midipath = args.midipath if args.midipath else 'dataset/*.mid'
 configpath = args.config if args.config else 'configs/config.json'
-outputpath = args.output if args.output else 'models/model'
 
-notes = note.get_notes(midipath);
-pitchnames = note.get_pitchnames(notes);
-int_notes = note.get_int_notes(pitchnames, notes)
+data = note.get_notes_info(midipath);
+pitchnames = note.get_pitchnames(data['notes']);
+int_notes = note.get_int_notes(pitchnames, data['notes'])
+offsets = data['offsets']
 parameters = json.load(open(configpath));
 sequence_length = parameters['groups_size']
-x, y = model.get_model_inputs(int_notes, sequence_length)
+x, y = model.get_model_inputs(int_notes, offsets, sequence_length)
 x = array(x)
-x = x.reshape((x.shape[0]), x.shape[1], 1)
+#x = x.reshape((x.shape[0]), x.shape[1], 1)
 y = array(y)
 model, history = model.get_model(x, y, parameters)
 train_output = {
@@ -57,20 +51,16 @@ train_output = {
         'groups_size': sequence_length,
         'history': history
         }
-"""
-output_file = open(outputpath,'wb')
-pickle.dump(train_output,output_file)
-output_file.close()
-"""
+
 input_predict = args.midi if args.midi else 'input.mid'
 output_file_path = args.output if args.output else 'results/output.mid'
-notes = get_notes(input_predict)
+data = note.get_notes_info(input_predict);
+
 pitchnames = train_output['pitchnames']
 x_input = array(get_int_notes(pitchnames, notes))
 x_input = x_input[0:train_output['groups_size']]
 model = train_output['model']
 
-train_output_file.close()
 predictions = []
 int_to_note = dict((number, note) for number, note in enumerate(pitchnames))
 new_series = get_new_series(train_output['groups_size'], x_input, model, len(pitchnames))
