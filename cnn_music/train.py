@@ -8,6 +8,7 @@ import json
 from numpy import array
 import argparse
 
+
 input_parser = argparse.ArgumentParser('Trains a model')
 input_parser.add_argument('-c','--config',
         metavar='config.json',
@@ -24,17 +25,20 @@ input_parser.add_argument('-mp','--midipath',
         type=str,
         help='path to mid, you can use \*.mid for all midis on directory; dataset/*.mid assumed if not specifyed'
         )
+print('passou inputs')
+
 args = input_parser.parse_args()
 midipath = args.midipath if args.midipath else 'dataset/*.mid'
 configpath = args.config if args.config else 'configs/config.json'
 outputpath = args.output if args.output else 'models/model'
 
-notes = note.get_notes(midipath);
-pitchnames = note.get_pitchnames(notes);
-int_notes = note.get_int_notes(pitchnames, notes)
+data = note.get_notes_info(midipath);
+pitchnames = note.get_pitchnames(data['notes']);
+int_notes = note.get_int_notes(pitchnames, data['notes'])
+offsets = data['offsets']
 parameters = json.load(open(configpath));
 sequence_length = parameters['groups_size']
-x, y = model.get_model_inputs(int_notes, sequence_length)
+x, y = model.get_model_inputs(int_notes, offsets, sequence_length)
 x = array(x)
 x = x.reshape((x.shape[0]), x.shape[1], 1)
 y = array(y)

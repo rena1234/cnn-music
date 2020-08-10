@@ -1,10 +1,29 @@
 from music21 import instrument, stream, note, chord, midi
 from unittest import TestCase, main
-from ..note import get_notes, get_pitchnames, get_int_notes, get_notes_chords_list
+from note import get_notes, get_pitchnames, get_int_notes, get_notes_chords_list, get_notes_info
 from numpy import array
 import pickle
 
 class TestNote(TestCase):
+
+    def test_get_notes_info(self):
+        def get_default_note(note_char, offset):
+            new_note = note.Note(note_char)
+            new_note.offset = offset 
+            new_note.storedInstrument = instrument.Piano()
+            return new_note
+
+        output_notes = [ 
+                get_default_note('A3', 0),
+                get_default_note('C4', 0.5)
+                ]
+
+        midi_stream = stream.Stream(output_notes)
+        midi_stream.write('midi', fp='test_notes.mid')
+
+        notes_info = get_notes_info('test_notes.mid')
+        notes_info_tuple = (notes_info['notes'], notes_info['offsets'])
+        self.assertEqual(notes_info_tuple, (['A3', 'C4'], [0, 0.5]))
 
     def test_get_notes(self):
         def get_default_note(note_char, offset):
@@ -18,7 +37,6 @@ class TestNote(TestCase):
                 get_default_note('C4', 0.5)
         ]
 
-        print(output_notes)
         midi_stream = stream.Stream(output_notes)
         midi_stream.write('midi', fp='test_notes.mid')
 
