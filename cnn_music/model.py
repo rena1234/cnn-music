@@ -5,13 +5,15 @@ from music21 import converter, instrument, note, chord
 from numpy import array
 from numpy import ndarray
 from keras.utils import np_utils
-from keras.models import Sequential
-from keras.layers import Dense, Activation
-from keras.layers import Flatten
-from keras.layers import MaxPooling1D
-from keras.layers import Conv1D
-from keras.callbacks.callbacks import History
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Activation
+from tensorflow.keras.layers import Flatten
+from tensorflow.keras.layers import MaxPooling1D
+from tensorflow.keras.layers import Conv1D
+from keras.callbacks import History
 from typing import Tuple, Dict, Union, List
+import tensorflow as tf
+import numpy as np
 
 def get_model(x: ndarray, y: ndarray, parameters: Dict[str, Union[str,int,float]]) -> (Sequential, History):
     """
@@ -29,9 +31,12 @@ def get_model(x: ndarray, y: ndarray, parameters: Dict[str, Union[str,int,float]
     model.add(Activation(parameters['activation']))
     model.add(Dense(1))
     model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'], metrics = ['mae', 'accuracy'])
-    history = model.fit(x,y, epochs=parameters['epochs'], verbose=parameters['verbose'], validation_split=parameters['validation'])
-    print("HISTORY TYPE")
-    print(type(history))
+    casted_x = [ tf.cast(item, tf.float32) for item in x  ]
+    casted_y = [ tf.cast(item, tf.float32) for item in y  ]
+    #history = model.fit(casted_x, casted_y, epochs=parameters['epochs'], verbose=parameters['verbose'], validation_split=parameters['validation'])
+    x = x.astype(np.float32)
+    y = y.astype(np.float32)
+    history = model.fit(x, y, epochs=parameters['epochs'], verbose=parameters['verbose'], validation_split=parameters['validation'])
     return model, history
 
 def get_model_inputs(int_notes: List[int], sequence_length: int) -> Tuple[List[int], List[int]]:
