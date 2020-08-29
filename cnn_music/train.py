@@ -25,7 +25,6 @@ input_parser.add_argument('-mp','--midipath',
         type=str,
         help='path to mid, you can use \*.mid for all midis on directory; dataset/*.mid assumed if not specifyed'
         )
-print('passou inputs')
 
 args = input_parser.parse_args()
 midipath = args.midipath if args.midipath else 'dataset/*.mid'
@@ -40,7 +39,7 @@ parameters = json.load(open(configpath));
 sequence_length = parameters['groups_size']
 x, y = model.get_model_inputs(int_notes, offsets, sequence_length)
 x = array(x)
-x = x.reshape((x.shape[0]), x.shape[1], 1)
+#x = x.reshape((x.shape[0]), x.shape[1], 1)
 y = array(y)
 model, history = model.get_model(x, y, parameters)
 train_output = {

@@ -16,12 +16,16 @@ def predict_next(x_input: ndarray, model: Sequential, set_size: int) -> int:
     :return: the predicted next number on series 
     """
     next_value = model.predict(x_input,verbose =0 )
+    print(next_value);
     next_value = next_value.tolist()[0][0]
+    print(next_value);
     next_value = round(next_value)
+    """
     if next_value < 0:
         next_value = 0
     elif next_value >= set_size:
         next_value = set_size - 1
+    """
     return next_value 
 
 def get_new_series(size: int, input, model, set_size: int) -> List[int]:
