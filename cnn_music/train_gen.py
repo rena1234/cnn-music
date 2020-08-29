@@ -24,11 +24,13 @@ input_parser.add_argument('-c','--config',
         type=str,
         help='path to config json; configs/config.json assumed if not specifyed'
         )
+"""
 input_parser.add_argument('-o','--output',
         metavar='output',
         type=str,
         help='path to output; models/model assumed if not specifyed'
         )
+        """
 input_parser.add_argument('-mp','--midipath',
         metavar='\*.mid',
         type=str,
@@ -70,7 +72,7 @@ x_input = array(get_int_notes(pitchnames, notes))
 x_input = x_input[0:train_output['groups_size']]
 model = train_output['model']
 
-train_output_file.close()
+#train_output_file.close()
 predictions = []
 int_to_note = dict((number, note) for number, note in enumerate(pitchnames))
 new_series = get_new_series(train_output['groups_size'], x_input, model, len(pitchnames))
