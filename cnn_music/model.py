@@ -16,7 +16,7 @@ from typing import Tuple, Dict, Union, List
 
 def get_model(
     x: ndarray, y: ndarray, parameters: Dict[str, Union[str, int, float]]
-) -> (Sequential, History):
+) -> Sequential:
 
     """
     :param x: list of the groups with selected size sequences 
@@ -32,7 +32,7 @@ def get_model(
             filters=parameters["filters"],
             kernel_size=parameters["kernel_size"],
             activation=parameters["activation"],
-            input_shape = (len(x), 2)
+            input_shape = (len(x[0]), 2)
         )
     )
     model.add(MaxPooling1D(pool_size=parameters["pool_size"]))
@@ -45,6 +45,7 @@ def get_model(
         loss=parameters["loss"],
         metrics=["mae", "accuracy"],
     )
+    """
     history = model.fit(
         x,
         y,
@@ -53,6 +54,8 @@ def get_model(
         validation_split=parameters["validation"],
     )
     return model, history
+    """
+    return model
 
 def get_model_inputs(
     int_notes: List[int], offsets, sequence_length: int, 

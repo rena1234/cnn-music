@@ -1,11 +1,11 @@
 import argparse, sys
 import note 
-import model 
+from model import get_model_inputs, get_model
 import json
 from numpy import array
 import argparse
 from note import get_notes, get_int_notes, get_note_strings, get_notes_chords_list
-from predict import get_new_series
+from predict import get_new_series, get_prediction_input
 from music21 import stream
 
 input_parser = argparse.ArgumentParser('Trains a model')
@@ -40,30 +40,60 @@ int_notes = note.get_int_notes(pitchnames, data['notes'])
 offsets = data['offsets']
 parameters = json.load(open(configpath));
 sequence_length = parameters['groups_size']
-x, y = model.get_model_inputs(int_notes, offsets, sequence_length)
+x, y = get_model_inputs(int_notes, offsets, sequence_length)
 x = array(x)
 #x = x.reshape((x.shape[0]), x.shape[1], 1)
 y = array(y)
-model, history = model.get_model(x, y, parameters)
+"""
+print(x)
+print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+print(y)
+print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
+"""
+print('SHAAAAPEEEEE')
+print(x.shape, y.shape)
+print('SHAAAAPEEEEE')
+"""
+for i in range(len(x)):
+    print('xxx')
+    print(x[i])
+    print('yyyy')
+    print(y[i])
+"""
+    
+model = get_model(x, y, parameters)
 train_output = {
         'pitchnames': pitchnames,
         'model': model,
         'groups_size': sequence_length,
-        'history': history
+        #'history': history
         }
 
 input_predict = args.midi if args.midi else 'input.mid'
 output_file_path = args.output if args.output else 'results/output.mid'
-data = note.get_notes_info(input_predict);
+data_input_predict = note.get_notes_info(input_predict);
 
 pitchnames = train_output['pitchnames']
-x_input = array(get_int_notes(pitchnames, notes))
-x_input = x_input[0:train_output['groups_size']]
+x_input_notes = get_int_notes(pitchnames, data_input_predict['notes'])
+x_input_ofsets = data_input_predict['offsets']
+
+#x_input = x_input[0:train_output['groups_size']]
+x_input = get_prediction_input(x_input_notes, x_input_ofsets, sequence_length)
+print('XINPUT------------------------------')
+print(x_input)
+print('XINPUT------------------------------')
+
 model = train_output['model']
 
 predictions = []
 int_to_note = dict((number, note) for number, note in enumerate(pitchnames))
+#new_series = get_new_series(train_output['groups_size'], x_input, model, len(pitchnames))
 new_series = get_new_series(train_output['groups_size'], x_input, model, len(pitchnames))
+
+print('NEW SERIEEEES-----------------------')
+print(new_series)
+print('NEW SERIEEEES-----------------------')
+
 note_strings = get_note_strings(int_to_note, new_series)
 output_notes = get_notes_chords_list(note_strings, 0.5)
 midi_stream = stream.Stream(output_notes)

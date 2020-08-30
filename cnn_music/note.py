@@ -18,7 +18,6 @@ def get_notes_info(data_path: str):
         try:
             midi = converter.parse(file)
         except:
-            print("excecao")
             continue
         notes_to_parse = None
         parts = instrument.partitionByInstrument(midi)
@@ -28,7 +27,6 @@ def get_notes_info(data_path: str):
             notes_to_parse = midi.flat.notes
         for element in notes_to_parse:
             if isinstance(element, note.Note):
-                #notes.append((str(element.pitch), element.offset, element.duration))
                 notes_info['notes'].append(str(element.pitch))
 
             elif isinstance(element, chord.Chord):
