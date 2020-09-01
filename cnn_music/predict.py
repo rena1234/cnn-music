@@ -32,10 +32,10 @@ def predict_next(x_input, model: Sequential, set_size: int) -> int:
     #input = x_input
     input = input.reshape((1, 100, 2))
     next_value = model.predict(input,verbose =0 )
+    next_value = next_value.tolist()[0]
     print(next_value);
-    next_value = next_value.tolist()[0][0]
-    print(next_value);
-    next_value = round(next_value)
+    
+    #next_value = round(next_value)
     """
     if next_value < 0:
         next_value = 0
@@ -83,7 +83,10 @@ def get_new_series_offset(size: int, input, model, set_size: int):
         predicted = predict_next(x_input, model, set_size)
         new_series = new_series[1:size]
         new_series.append(predicted)
-        x_input = array(new_series)
+        print('NEW SERIES')
+        print(new_series)
+        print('NEW SERIES')
+        x_input = new_series
         #x_input = x_input.reshape((1,size,1))
     return new_series
     
