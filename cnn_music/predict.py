@@ -16,10 +16,21 @@ def predict_next(x_input, model: Sequential, set_size: int) -> int:
     :return: the predicted next number on series 
     """
 
+    """
     print('INPUTANTESPREDICT--------------------')
     print(x_input)
     print('INPUTANTESPREDICT--------------------')
-    input = numpy.asarray(x_input)
+    """
+
+    input = array(x_input).astype(numpy.float32)
+    print('INPUTANTESPREDICT--------------------')
+    print(input)
+    print('INPUTANTESPREDICT--------------------')
+    #input = numpy.asarray(x_input).astype(numpy.float32)
+    #input = numpy.asarray(x_input)
+    #input = x_input.astype(numpy.float32)
+    #input = x_input
+    input = input.reshape((1, 100, 2))
     next_value = model.predict(input,verbose =0 )
     print(next_value);
     next_value = next_value.tolist()[0][0]
@@ -43,7 +54,8 @@ def get_new_series(size: int, input, model, set_size: int) -> List[int]:
     """
     #new_series = input.tolist()
     new_series = input
-    x_input = array(new_series)
+    #x_input = array(new_series)
+    x_input = new_series
     #x_input = x_input.reshape((1,size,1))
     for i in range(0,size):
         predicted = predict_next(x_input, model, set_size)
@@ -62,9 +74,12 @@ def get_new_series_offset(size: int, input, model, set_size: int):
     :return: number series with length size
     """
     #new_series = input.tolist()
-    x_input = array(new_series)
+    new_series = input
+    #x_input = array(new_series)
+    x_input = new_series
     #x_input = x_input.reshape((1,size,1))
     for i in range(0,size):
+        print('LALALALALA')
         predicted = predict_next(x_input, model, set_size)
         new_series = new_series[1:size]
         new_series.append(predicted)
@@ -82,17 +97,13 @@ def get_prediction_input(
 
     :return: tuple with list of series groups, and next value to each group 
     """
-    """
-    network_input = []
-    network_output = []
+    return [ [int_notes[i], offsets[i]] for i in range(0, sequence_length)]
     """
     network_input = list()
     for i in range(0, len(int_notes) - sequence_length):
         notes_sample = int_notes[i : i + sequence_length]
         offsets_sample = offsets[i : i + sequence_length] 
-        network_input.append([[notes_sample[j], offsets_sample[j]] for j in range(0, sequence_length)])
+        network_input.append([notes_sample[j], offsets_sample[j]] for j in range(0, sequence_length))
         """
-        network_input.append(int_notes[i : i + sequence_length])
-        network_output.append(int_notes[i + sequence_length])
-        """
+
     return network_input

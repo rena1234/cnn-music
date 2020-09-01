@@ -5,7 +5,7 @@ import json
 from numpy import array
 import argparse
 from note import get_notes, get_int_notes, get_note_strings, get_notes_chords_list
-from predict import get_new_series, get_prediction_input
+from predict import get_new_series, get_prediction_input, get_new_series_offset
 from music21 import stream
 
 input_parser = argparse.ArgumentParser('Trains a model')
@@ -79,6 +79,9 @@ x_input_ofsets = data_input_predict['offsets']
 
 #x_input = x_input[0:train_output['groups_size']]
 x_input = get_prediction_input(x_input_notes, x_input_ofsets, sequence_length)
+x_input = x_input[0:train_output['groups_size']]
+
+print(len(x_input))
 print('XINPUT------------------------------')
 print(x_input)
 print('XINPUT------------------------------')
@@ -88,7 +91,7 @@ model = train_output['model']
 predictions = []
 int_to_note = dict((number, note) for number, note in enumerate(pitchnames))
 #new_series = get_new_series(train_output['groups_size'], x_input, model, len(pitchnames))
-new_series = get_new_series(train_output['groups_size'], x_input, model, len(pitchnames))
+new_series = get_new_series_offset(train_output['groups_size'], x_input, model, len(pitchnames))
 
 print('NEW SERIEEEES-----------------------')
 print(new_series)
