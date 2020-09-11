@@ -44,22 +44,6 @@ x, y = get_model_inputs(int_notes, offsets, sequence_length)
 x = array(x)
 #x = x.reshape((x.shape[0]), x.shape[1], 1)
 y = array(y)
-"""
-print(x)
-print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-print(y)
-print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
-"""
-print('SHAAAAPEEEEE')
-print(x.shape, y.shape)
-print('SHAAAAPEEEEE')
-"""
-for i in range(len(x)):
-    print('xxx')
-    print(x[i])
-    print('yyyy')
-    print(y[i])
-"""
     
 model = get_model(x, y, parameters)
 train_output = {

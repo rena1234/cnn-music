@@ -23,9 +23,6 @@ def predict_next(x_input, model: Sequential, set_size: int) -> int:
     """
 
     input = array(x_input).astype(numpy.float32)
-    print('INPUTANTESPREDICT--------------------')
-    print(input)
-    print('INPUTANTESPREDICT--------------------')
     #input = numpy.asarray(x_input).astype(numpy.float32)
     #input = numpy.asarray(x_input)
     #input = x_input.astype(numpy.float32)
@@ -33,7 +30,6 @@ def predict_next(x_input, model: Sequential, set_size: int) -> int:
     input = input.reshape((1, 100, 2))
     next_value = model.predict(input,verbose =0 )
     next_value = next_value.tolist()[0]
-    print(next_value);
     
     #next_value = round(next_value)
     """
@@ -79,13 +75,9 @@ def get_new_series_offset(size: int, input, model, set_size: int):
     x_input = new_series
     #x_input = x_input.reshape((1,size,1))
     for i in range(0,size):
-        print('LALALALALA')
         predicted = predict_next(x_input, model, set_size)
         new_series = new_series[1:size]
         new_series.append(predicted)
-        print('NEW SERIES')
-        print(new_series)
-        print('NEW SERIES')
         x_input = new_series
         #x_input = x_input.reshape((1,size,1))
     return new_series

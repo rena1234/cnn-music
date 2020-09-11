@@ -25,21 +25,20 @@ def get_model(
 
     :return: A tuple with a model and history that can be used to generate graphs
     """
-
+    n_features = x.shape[2]
     model = Sequential()
     model.add(
         Conv1D(
             filters=parameters["filters"],
             kernel_size=parameters["kernel_size"],
             activation=parameters["activation"],
-            input_shape = (len(x[0]), 2)
+            input_shape = (parameters['groups_size'], n_features)
         )
     )
     model.add(MaxPooling1D(pool_size=parameters["pool_size"]))
     model.add(Flatten())
-    model.add(Dense(parameters["dense_units"]))
-    model.add(Activation(parameters["activation"]))
-    model.add(Dense(2))
+    model.add(Dense(parameters["dense_units"], activation=parameters['activation']))
+    model.add(Dense(n_features))
     model.compile(
         optimizer=parameters["optimizer"],
         loss=parameters["loss"],
