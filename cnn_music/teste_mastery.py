@@ -8,6 +8,7 @@ from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Conv1D
 from tensorflow.keras.layers import MaxPooling1D
 import note
+from music21 import stream
 
 # split a multivariate sequence into samples
 def split_sequences(sequences, n_steps):
@@ -81,13 +82,49 @@ x_input = [[x_input_notes[i], x_input_ofsets[i]] for i in range(100)]
 new_series = x_input;
 x_input = array(x_input);
 x_input = x_input.reshape((1, n_steps, n_features))
+last_offset = 0
 for i in range(100):
+    """
+    offset_diff = -1
+    while offset_diff < 0:
+        print('loop')
+        yhat = model.predict(x_input.astype(numpy.float32), verbose=0)
+        offset_diff = yhat[0][1] - last_offset
+        print(yhat)
+    """
     yhat = model.predict(x_input.astype(numpy.float32), verbose=0)
+    offset_diff = yhat[0][1] - last_offset
+    if(offset_diff < 0):
+        yhat[0][1] = last_offset + 0.5
+    
+    #print('out of the black');
+    last_offset = yhat[0][1]
     new_series = new_series[1:100]
     new_series.append(yhat[0])
     x_input = new_series
     x_input = array(x_input);
     x_input = x_input.reshape((1, n_steps, n_features))
 
+"""
 print('NEW SERIEEEES-----------------------')
 print(new_series)
+"""
+
+"""
+    ROUND CAUSES THE NOTE NOT FOUND BUG
+"""
+
+int_notes = [ round(prediction[0]) if prediction[0] >= 0 else 0 for prediction in new_series ]
+int_notes = [ n if n < len(pitchnames) else len(pitchnames) -1 for n in int_notes]
+
+offsets = [ prediction[1] for prediction in new_series ]
+#int_notes = int_notes.astype(int)
+print('int_notes--------------------')
+print(int_notes)
+int_to_note = dict((number, note) for number, note in enumerate(pitchnames))
+notes_strs = note.get_note_strings(int_to_note, int_notes)
+notes_list = note.get_notes_chords_list_offset(notes_strs, offsets)
+
+midi_stream = stream.Stream(notes_list)
+output_file_path = 'results/output_mastey.mid'
+midi_stream.write('midi', fp=output_file_path)

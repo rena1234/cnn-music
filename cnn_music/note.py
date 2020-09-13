@@ -120,6 +120,39 @@ def get_notes_chords_list(
         offset += offset_between
     return output
 
+def get_notes_chords_list_offset(
+    note_strings: List[str], offsets 
+) -> List[Union[Chord, Note]]:
+    """
+    :param note_strings: List of note strings 
+    :param offset_between: offset between notes and chords 
+
+    :return: List of music21 Chords and notes 
+    """
+    offset = 0
+    output = []
+
+    for pattern, offset in zip(note_strings, offsets):
+        print(offset)
+        if ("." in pattern) or pattern.isdigit():
+            notes_in_chord = pattern.split(".")
+            notes = []
+            for current_note in notes_in_chord:
+                new_note = note.Note(int(current_note))
+                new_note.storedInstrument = instrument.Piano()
+                notes.append(new_note)
+            new_chord = chord.Chord(notes)
+            new_chord.offset = offset
+            output.append(new_chord)
+
+        else:
+            new_chord = note.Note(pattern)
+            new_chord.offset = offset
+            new_chord.storedInstrument = instrument.Piano()
+            output.append(new_chord)
+
+    return output
+
 
 def get_note_strings(int_to_note: Dict[int, str], series: List[int]) -> List[str]:
     """
