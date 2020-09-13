@@ -41,13 +41,11 @@ in_seq2 = array([10.75, 11.25, 11.75, 14, 14.25, 15.33, 19.25, 19.5, 20.25])
 in_seq1 = array(int_notes)
 in_seq2 = array(offsets)
 """
-out_seq = array([in_seq1[i]+in_seq2[i] for i in range(len(in_seq1))])
 # convert to [rows, columns] structure
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
 in_seq2 = in_seq2.reshape((len(in_seq2), 1))
-out_seq = out_seq.reshape((len(out_seq), 1))
 # horizontally stack columns
-dataset = hstack((in_seq1, in_seq2, out_seq))
+dataset = hstack((in_seq1, in_seq2))
 # choose a number of time steps
 #n_steps = 3
 n_steps = 100
@@ -74,7 +72,7 @@ input_predict = 'ArtPepper_BluesForBlanche_FINAL.mid'
 data_input_predict = note.get_notes_info(input_predict);
 x_input_notes = note.get_int_notes(pitchnames, data_input_predict['notes'])
 x_input_ofsets = data_input_predict['offsets']
-x_input = [[x_input_notes[i], x_input_ofsets[i], x_input_notes[i] + x_input_ofsets[i]] for i in range(100)]
+x_input = [[x_input_notes[i], x_input_ofsets[i]] for i in range(100)]
 
 
 #x_input = get_prediction_input(x_input_notes, x_input_ofsets, sequence_length)
