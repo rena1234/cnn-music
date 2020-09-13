@@ -11,18 +11,18 @@ import note
 
 # split a multivariate sequence into samples
 def split_sequences(sequences, n_steps):
-	X, y = list(), list()
-	for i in range(len(sequences)):
-		# find the end of this pattern
-		end_ix = i + n_steps
-		# check if we are beyond the dataset
-		if end_ix > len(sequences)-1:
-			break
-		# gather input and output parts of the pattern
-		seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
-		X.append(seq_x)
-		y.append(seq_y)
-	return array(X), array(y)
+    X, y = list(), list()
+    for i in range(len(sequences)):
+        # find the end of this pattern
+        end_ix = i + n_steps
+        # check if we are beyond the dataset
+        if end_ix > len(sequences)-1:
+            break
+        # gather input and output parts of the pattern
+        seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
+        X.append(seq_x)
+        y.append(seq_y)
+    return array(X), array(y)
 
 # define input sequence
 
@@ -54,6 +54,8 @@ n_steps = 100
 # convert into input/output
 X, y = split_sequences(dataset, n_steps)
 # the dataset knows the number of features, e.g. 2
+print('X----------------------------------------')
+print(X);
 n_features = X.shape[2]
 # define model
 model = Sequential()
@@ -68,9 +70,9 @@ model.fit(X.astype(numpy.float32), y.astype(numpy.float32), epochs=3000, verbose
 # demonstrate prediction
 #x_input = array([[34, 24.33, 58.33], [4, 24.75 , 28.75], [4, 27.33, 31.33]])
 
-input_predict = 'input.mid'
+input_predict = 'ArtPepper_BluesForBlanche_FINAL.mid'
 data_input_predict = note.get_notes_info(input_predict);
-x_input_notes = get_int_notes(pitchnames, data_input_predict['notes'])
+x_input_notes = note.get_int_notes(pitchnames, data_input_predict['notes'])
 x_input_ofsets = data_input_predict['offsets']
 x_input = [[x_input_notes[i], x_input_ofsets[i], x_input_notes[i] + x_input_ofsets[i]] for i in range(100)]
 
@@ -78,6 +80,16 @@ x_input = [[x_input_notes[i], x_input_ofsets[i], x_input_notes[i] + x_input_ofse
 #x_input = get_prediction_input(x_input_notes, x_input_ofsets, sequence_length)
 #x_input = x_input[0:100]
 
+new_series = x_input;
+x_input = array(x_input);
 x_input = x_input.reshape((1, n_steps, n_features))
-yhat = model.predict(x_input, verbose=0)
-print(yhat)
+for i in range(100):
+    yhat = model.predict(x_input.astype(numpy.float32), verbose=0)
+    new_series = new_series[1:100]
+    new_series.append(yhat[0])
+    x_input = new_series
+    x_input = array(x_input);
+    x_input = x_input.reshape((1, n_steps, n_features))
+
+print('NEW SERIEEEES-----------------------')
+print(new_series)
