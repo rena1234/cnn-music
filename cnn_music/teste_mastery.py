@@ -26,6 +26,15 @@ pitchnames = note.get_pitchnames(data['notes']);
 in_seq1 = array(note.get_int_notes(pitchnames, data['notes']))
 in_seq2 = array((data['offsets']))
 
+print(len(data['offsets']))
+print(len(data['notes']))
+print('LEN 1---------')
+print(len(in_seq1))
+print('--------------')
+print('LEN 2---------')
+print(len(in_seq2))
+print('--------------')
+
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
 in_seq2 = in_seq2.reshape((len(in_seq2), 1))
 dataset = hstack((in_seq1, in_seq2))
