@@ -8,6 +8,10 @@ from tensorflow.keras.layers import Conv1D
 from tensorflow.keras.layers import MaxPooling1D
 import note
 from music21 import stream
+import pickle
+from multiprocessing import Queue
+import argparse, sys
+import json
 
 def split_sequences(sequences, n_steps):
     X, y = list(), list()
@@ -42,6 +46,7 @@ n_steps = 100
 X, y = split_sequences(dataset, n_steps)
 
 n_features = X.shape[2]
+
 model = Sequential()
 model.add(Conv1D(filters=64, kernel_size=2, activation='relu', input_shape=(n_steps, n_features)))
 model.add(MaxPooling1D(pool_size=2))
@@ -49,7 +54,9 @@ model.add(Flatten())
 model.add(Dense(50, activation='relu'))
 model.add(Dense(n_features))
 model.compile(optimizer='adam', loss='mse')
-model.fit(X.astype(numpy.float32), y.astype(numpy.float32), epochs=3000, verbose=0)
+model.fit(X.astype(numpy.float32), y.astype(numpy.float32), epochs=100, verbose=0)
+
+model.save('models/modelOffSet')
 
 input_predict = 'ArtPepper_BluesForBlanche_FINAL.mid'
 data_input_predict = note.get_notes_info(input_predict);
@@ -82,6 +89,15 @@ offsets = [ prediction[1] - first_offset  for prediction in new_series ]
 int_to_note = dict((number, note) for number, note in enumerate(pitchnames))
 notes_strs = note.get_note_strings(int_to_note, int_notes)
 notes_list = note.get_notes_chords_list_offset(notes_strs, offsets)
+
+output_file = open("models/modelOffSettt",'wb')
+train_output = {
+        'pitchnames': pitchnames,
+        'groups_size': 100,
+        'n_features': n_features
+        }
+pickle.dump(train_output,output_file)
+output_file.close()
 
 midi_stream = stream.Stream(notes_list)
 output_file_path = 'results/output_mastey.mid'
