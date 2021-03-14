@@ -1,13 +1,15 @@
 {
 	"filters": 64,
+	"filters2": 32,
 	"kernel_size": 2,
 	"activation": "relu",
 	"pool_size": 2,
 	"optimizer": "adam",
 	"loss": "mse",
-	"epochs": 100,
+	"epochs": 800,
 	"verbose": 0,
 	"dense_units": 50,
 	"groups_size": 100,
+	"dropout": 0.2,
 	"validation": 0.2
 }

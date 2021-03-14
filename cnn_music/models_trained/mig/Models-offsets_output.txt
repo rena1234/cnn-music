@@ -1,0 +1,91 @@
+Pasta 1_mig
+
+model = Sequential()
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Flatten())
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Dense(n_features))
+model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'])
+model.fit(X.astype(numpy.float32), y.astype(numpy.float32), epochs=parameters['epochs'], verbose=parameters['verbose'])
+
+offset output blues for blanche
+[0.0, 0.9545593, 1.4545593, 3.036789, 4.4226837, 4.9226837, 5.4226837, 5.9226837, 6.4226837, 6.9226837, 7.4226837, 7.9226837, 12.3004, 16.316238, 16.816238, 17.316238, 17.816238, 18.316238, 22.64235, 23.286789, 25.362747, 25.59436, 26.09436, 26.59436, 27.09436, 27.59436, 28.09436, 28.59436, 30.123367, 32.90216, 34.15361, 40.243607, 40.776764, 46.496277, 46.996277, 47.496277, 51.75847, 51.92856, 52.42856, 52.92856, 53.42856, 55.97505, 56.820435, 57.320435, 59.153305, 59.653305, 60.153305, 60.653305, 61.153305, 61.330017, 61.609375, 62.109375, 63.17119, 66.789734, 67.289734, 67.386765, 69.03702, 71.384766, 75.438095, 75.62276, 80.05551, 80.55551, 81.05551, 81.28842, 82.661606, 85.025986, 85.525986, 86.025986, 86.525986, 86.599045, 87.099045, 88.8976, 91.03833, 91.53833, 92.03833, 92.53833, 93.81416, 97.565094, 98.309875, 98.809875, 99.309875, 100.37073, 101.60721, 102.92769, 104.65485, 105.38379, 106.6667, 107.1667, 107.6667, 108.1667, 108.6667, 108.8468, 111.73956, 112.639114, 113.386, 113.886, 114.724335, 115.95758, 116.985504, 117.45105]
+
+offset output whispering
+[0.0, 0.5, 1.0, 4.3552094, 5.8117676, 6.3117676, 6.8117676, 7.3117676, 7.8117676, 11.125465, 11.625465, 12.125465, 12.625465, 13.125465, 13.625465, 14.125465, 18.332268, 18.832268, 19.332268, 19.832268, 20.332268, 20.832268, 21.332268, 21.50592, 26.343758, 26.843758, 27.343758, 27.843758, 28.343758, 31.098068, 31.851143, 32.351143, 32.851143, 33.351143, 36.04944, 36.54944, 39.47422, 39.97422, 40.47422, 40.97422, 41.47422, 41.97422, 52.459404, 52.959404, 53.459404, 53.959404, 54.459404, 54.959404, 55.459404, 55.959404, 56.459404, 56.959404, 57.459404, 57.959404, 58.459404, 60.579994, 61.079994, 62.5142, 63.881447, 65.3762, 65.8762, 66.3762, 68.02361, 72.428, 72.928, 73.428, 73.928, 74.428, 74.928, 76.81687, 77.0922, 77.5922, 78.0922, 78.5922, 80.87568, 81.42982, 82.06345, 84.739296, 85.239296, 88.08915, 88.58915, 90.763756, 91.263756, 91.763756, 93.3028, 94.73167, 101.08787, 101.94468, 105.05755, 105.58965, 106.08965, 106.58965, 107.08965, 107.58965, 108.08965, 108.58965, 109.08965, 110.17127, 113.02523, 113.42649]
+
+------------------------------------------------------------------------
+Pasta 2_mig
+
+model = Sequential()
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Flatten())
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Dense(n_features))
+model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'])
+model.fit(X.astype(numpy.float32), y.astype(numpy.float32), epochs=parameters['epochs'], verbose=parameters['verbose'])
+
+offset output blues for blanche
+[0.0, 0.5, 1.0, 1.5, 2.0, 4.6938705, 8.095451, 8.595451, 9.095451, 9.595451, 10.095451, 10.595451, 11.095451, 11.595451, 12.438301, 12.938301, 13.438301, 13.938301, 14.438301, 14.938301, 15.438301, 17.21453, 17.71453, 18.21453, 20.431496, 21.09179, 22.042107, 22.542107, 23.042107, 23.542107, 26.077415, 26.577415, 26.920326, 27.420326, 28.656136, 29.156136, 30.287376, 33.063225, 35.016655, 36.076973, 36.291832, 38.78498, 41.901756, 42.401756, 42.901756, 43.401756, 43.64904, 44.14904, 44.64904, 45.14904, 45.64904, 46.14904, 47.440346, 47.940346, 48.515526, 53.238884, 53.738884, 55.83718, 56.33718, 56.83718, 57.33718, 57.57763, 58.07763, 58.57763, 59.07763, 59.57763, 60.07763, 60.57763, 61.07763, 61.57763, 62.07763, 62.57763, 63.07763, 63.57763, 64.07763, 64.57763, 65.07763, 66.82986, 67.32986, 67.82986, 68.32986, 69.34022, 69.84022, 70.34022, 70.84022, 71.35087, 71.85087, 72.313866, 72.813866, 80.51739, 81.01739, 81.51739, 82.01739, 82.51739, 83.01739, 83.51739, 85.20968, 87.28159, 87.78159, 88.28159]
+
+offset output whispering
+[0.0, 1.4348297, 1.472229, 1.972229, 2.472229, 2.972229, 5.020035, 5.520035, 6.020035, 6.520035, 9.867935, 10.367935, 10.867935, 11.367935, 11.867935, 12.367935, 12.867935, 13.367935, 13.867935, 14.367935, 14.867935, 15.367935, 15.867935, 16.367935, 16.406235, 16.906235, 19.181587, 19.681587, 20.22554, 20.84105, 22.053253, 22.553253, 25.039383, 25.539383, 26.039383, 26.539383, 27.039383, 27.539383, 28.039383, 28.539383, 29.039383, 29.539383, 30.039383, 30.539383, 31.142494, 34.10208, 35.185394, 35.685394, 37.49852, 37.99852, 38.49852, 38.99852, 39.49852, 39.99852, 40.49852, 40.99852, 41.49852, 43.00685, 43.50685, 44.00685, 44.50685, 47.819702, 48.319702, 48.819702, 49.319702, 49.819702, 50.319702, 50.819702, 51.319702, 51.819702, 53.032883, 54.542664, 55.20198, 56.048462, 58.476486, 59.27278, 59.78209, 60.28209, 60.78209, 61.28209, 61.962006, 62.12097, 67.24962, 67.74962, 68.24835, 68.74835, 69.24835, 69.74835, 71.29961, 71.85576, 72.416275, 72.916275, 73.499405, 73.999405, 74.499405, 74.999405, 76.80591, 76.94557, 79.12671, 79.62671]
+
+------------------------------------------------------------------------
+Pasta 3_mig
+
+model = Sequential()
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Flatten())
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Dense(n_features))
+model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'])
+model.fit(X.astype(numpy.float32), y.astype(numpy.float32), epochs=parameters['epochs'], verbose=parameters['verbose'])
+
+
+offset output blues for blanche
+[0.0, 0.5, 3.0345154, 3.5345154, 3.6579742, 4.1579742, 10.42807, 10.92807, 11.610649, 12.110649, 14.650253, 15.150253, 15.650253, 16.150253, 18.114815, 18.614815, 19.114815, 19.614815, 20.114815, 20.614815, 21.114815, 21.614815, 22.114815, 24.846855, 25.346855, 25.846855, 26.346855, 26.471977, 27.333473, 27.833473, 28.132332, 30.887398, 31.387398, 31.546562, 32.046562, 32.546562, 33.046562, 33.546562, 34.046562, 34.546562, 35.046562, 36.815758, 37.315758, 37.815758, 38.315758, 38.815758, 39.393837, 39.937172, 40.437172, 42.148964, 43.217155, 43.717155, 44.217155, 44.717155, 45.155678, 45.655678, 46.155678, 46.655678, 47.155678, 47.655678, 48.155678, 48.655678, 53.155464, 53.655464, 54.155464, 54.655464, 55.155464, 55.655464, 56.155464, 56.655464, 64.15792, 64.65792, 65.15792, 65.65792, 66.15792, 66.65792, 67.15792, 67.65792, 69.09664, 69.59664, 70.09664, 70.59664, 71.09664, 71.59664, 72.09664, 72.59664, 74.65545, 75.15545, 75.65545, 76.15545, 76.18194, 76.68194, 77.18194, 77.68194, 79.44547, 79.94547, 80.44547, 80.94547, 81.01957, 81.474525]
+
+offset output whispering
+[0.0, 1.91716, 2.41716, 3.5625076, 4.0625076, 7.42675, 7.92675, 8.571991, 9.071991, 9.571991, 10.071991, 10.781799, 11.281799, 14.4814, 14.9814, 15.4814, 15.9814, 16.4814, 16.9814, 17.4814, 17.9814, 18.531677, 19.031677, 19.531677, 20.031677, 20.531677, 21.031677, 21.531677, 22.031677, 22.175652, 22.675652, 23.175652, 23.675652, 24.175652, 24.675652, 25.175652, 25.26117, 25.76117, 26.26117, 26.76117, 27.26117, 27.76117, 28.26117, 28.76117, 31.15976, 31.65976, 32.15976, 32.65976, 33.15976, 33.65976, 34.15976, 34.65976, 36.259193, 36.759193, 37.259193, 37.759193, 38.259193, 38.759193, 39.259193, 39.759193, 40.259193, 40.759193, 41.259193, 41.759193, 42.259193, 42.759193, 43.259193, 43.759193, 44.228233, 44.728233, 45.79772, 46.29772, 47.315384, 47.815384, 48.315384, 48.815384, 52.59487, 53.09487, 53.89158, 54.39158, 54.89158, 55.39158, 55.89158, 56.39158, 56.89158, 57.39158, 57.877922, 58.377922, 58.877922, 59.377922, 59.877922, 60.377922, 60.877922, 61.377922, 61.877922, 62.377922, 62.877922, 63.377922, 63.877922, 64.37792]
+
+------------------------------------------------------------------------
+Pasta 4_mig
+
+model = Sequential()
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Flatten())
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Dense(n_features))
+model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'])
+model.fit(X.astype(numpy.float32), y.astype(numpy.float32), epochs=parameters['epochs'], verbose=parameters['verbose'])
+
+offset output blues for blanche
+[0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 3.746582, 4.246582, 4.746582, 5.246582, 5.746582, 6.246582, 6.6602173, 8.874245, 9.374245, 9.874245, 10.374245, 10.525192, 11.025192, 11.525192, 12.025192, 14.778137, 15.278137, 15.778137, 16.278137, 16.778137, 17.278137, 17.778137, 18.278137, 18.778137, 19.278137, 19.778137, 20.278137, 20.778137, 21.278137, 21.778137, 23.01207, 26.563461, 27.063461, 27.563461, 28.063461, 28.563461, 29.063461, 29.563461, 30.063461, 30.563461, 31.063461, 31.563461, 32.06346, 32.56346, 33.06346, 33.56346, 34.06346, 34.56346, 35.06346, 35.56346, 36.06346, 36.56346, 37.06346, 37.56346, 38.06346, 38.56346, 39.06346, 39.56346, 40.06346, 40.56346, 41.06346, 41.56346, 42.06346, 42.56346, 43.06346, 43.56346, 44.06346, 44.56346, 45.06346, 45.56346, 46.06346, 46.56346, 47.06346, 47.56346, 48.06346, 48.56346, 49.06346, 49.56346, 50.06346, 50.56346, 51.06346, 51.56346, 52.06346, 52.56346, 53.06346, 53.56346, 54.06346, 54.56346, 55.06346, 55.56346, 56.06346, 56.56346]
+
+offset output whispering
+[0.0, 1.956337, 2.456337, 2.6282654, 3.1282654, 9.283302, 9.783302, 10.094162, 10.594162, 10.773743, 11.273743, 11.773743, 12.273743, 12.773743, 13.273743, 13.6579895, 14.1579895, 15.454193, 15.954193, 16.339714, 16.839714, 17.339714, 17.839714, 18.339714, 18.839714, 19.381363, 19.881363, 20.381363, 20.881363, 21.167595, 21.667595, 22.167595, 22.667595, 24.383484, 24.883484, 25.235634, 25.735634, 26.622635, 27.122635, 27.622635, 28.122635, 28.902786, 29.402786, 29.902786, 30.402786, 30.902786, 31.402786, 31.902786, 32.402786, 32.9077, 33.4077, 33.9077, 34.4077, 34.9077, 35.4077, 35.9077, 36.4077, 38.550255, 39.050255, 39.550255, 40.050255, 40.550255, 41.050255, 41.550255, 42.050255, 42.550255, 43.050255, 43.550255, 44.050255, 44.550255, 45.050255, 45.550255, 46.050255, 46.550255, 47.050255, 47.550247, 48.050247, 48.550247, 49.050247, 49.550247, 50.050247, 50.550247, 51.050247, 51.550247, 52.050247, 52.550247, 53.050247, 53.550247, 54.050247, 54.550247, 55.050247, 55.550247, 56.050247, 56.550247, 57.050247, 57.550247, 58.050247, 58.550247, 59.050247, 59.550247]

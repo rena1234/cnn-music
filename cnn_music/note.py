@@ -1,10 +1,10 @@
-from typing import List, Dict, Union
-from music21 import note, chord
-from music21.note import Note
-from music21.chord import Chord
-import glob
-
 from music21 import converter, instrument
+from music21 import note, chord
+from music21.chord import Chord
+from music21.note import Note
+from typing import List, Dict, Union
+import glob
+from fractions import Fraction
 
 
 def get_notes_info(data_path: str):
@@ -27,24 +27,55 @@ def get_notes_info(data_path: str):
             notes_to_parse = midi.flat.notes
         for element in notes_to_parse:
             if isinstance(element, note.Note):
-                print('ADDNOTE')
+                #print('ADDNOTE')
                 notes_info['notes'].append(str(element.pitch))
                 notes_info['offsets'].append(element.offset)
             elif isinstance(element, chord.Chord):
-                print('ADDNOTE')
-                """
-                notes.append(
-                    (".".join(str(n) for n in element.normalOrder), element.offset)
-                )
-                """
                 notes_info['notes'].append(".".join(str(n) for n in element.normalOrder))
                 notes_info['offsets'].append(element.offset)
-            else:
-                print('elementFALHA-------------')
-                print(element)
-                print('-------------')
-            print('OFFSETADD')
+    
     return notes_info
+
+
+def get_notes_info_ordenado(data_path: str):
+    """
+    :param data_path: path to midis directory 
+
+    :return: List of note strings 
+    """
+    notes_info = {'notes': [], 'offsets': [] };
+    lista = []
+    for file in glob.glob(data_path):
+        try:
+            midi = converter.parse(file)
+        except:
+            continue
+        notes_to_parse = None
+        parts = instrument.partitionByInstrument(midi)
+        if parts:
+            notes_to_parse = parts.parts[0].recurse()
+        else:
+            notes_to_parse = midi.flat.notes
+        for element in notes_to_parse:
+            if isinstance(element, note.Note):
+                #print('ADDNOTE')
+                string_temp = str(element.pitch)+" "+str(element.offset)
+                lista.append(string_temp)
+            elif isinstance(element, chord.Chord):
+                string_temp =".".join(str(n) for n in element.normalOrder)+" "+str(element.offset)
+                lista.append(string_temp)
+    
+    lista.sort()
+    for x in lista:
+        string= x.split(" ",1)
+        notes_info['notes'].append(string[0])
+        try:
+            notes_info['offsets'].append(float(string[1]))
+        except:
+            notes_info['offsets'].append(Fraction(string[1]))
+        pass
+    return notes_info
+
 
 
 def get_notes(data_path: str) -> List[str]:
@@ -71,6 +102,8 @@ def get_notes(data_path: str) -> List[str]:
                 notes.append(str(element.pitch))
             elif isinstance(element, chord.Chord):
                 notes.append(".".join(str(n) for n in element.normalOrder))
+            else:
+                continue
     return notes
 
 
@@ -140,7 +173,7 @@ def get_notes_chords_list_offset(
     output = []
 
     for pattern, offset in zip(note_strings, offsets):
-        print(offset)
+        #print(offset)
         if ("." in pattern) or pattern.isdigit():
             notes_in_chord = pattern.split(".")
             notes = []
