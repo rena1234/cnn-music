@@ -1,16 +1,14 @@
-from numpy import array
-from numpy import hstack
-import numpy
+import pickle, argparse, sys, json, note
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers import Flatten
-from tensorflow.keras.layers import Conv1D
-from tensorflow.keras.layers import MaxPooling1D
-import note
+from tensorflow.keras.layers import Dense, Flatten
+from tensorflow.keras.layers import Conv1D, MaxPooling1D
+from tensorflow.keras.layers import Dropout
+from datetime import datetime
 from music21 import stream
-import pickle
-import argparse, sys
-import json
+from numpy import hstack
+from numpy import array
+import numpy
+
 
 def split_sequences(sequences, n_steps):
     X, y = list(), list()
@@ -36,8 +34,11 @@ input_parser.add_argument('-mp','--midipath',
         help='path to mid, you can use \*.mid for all midis on directory; dataset/*.mid assumed if not specifyed'
         )
 args = input_parser.parse_args()
-midipath = args.midipath if args.midipath else 'dataset/*.mid'
+midipath = args.midipath if args.midipath else 'bach_846.mid'
 configpath = args.config if args.config else 'configs/config.json'
+
+print("get notes")
+print(datetime.now().time())
 
 data = note.get_notes_info(midipath);
 pitchnames = note.get_pitchnames(data['notes']);
@@ -54,18 +55,34 @@ X, y = split_sequences(dataset, n_steps)
 
 n_features = X.shape[2]
 
+print("Training")
+print(datetime.now().time())
+
 model = Sequential()
 model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Dropout(0.3))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Conv1D(filters=parameters['filters3'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Conv1D(filters=parameters['filters4'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
 model.add(MaxPooling1D(pool_size=parameters['pool_size']))
 model.add(Flatten())
 model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
 model.add(Dense(n_features))
 model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'])
 model.fit(X.astype(numpy.float32), y.astype(numpy.float32), epochs=parameters['epochs'], verbose=parameters['verbose'])
+model.save('models/model_mig_3_bach_846')
 
-model.save('models/modelOffSet')
+print("End Training")
+print(datetime.now().time())
 
-output_file = open("models/modelOffSett",'wb')
+output_file = open("models/elements_mig_3_bach_846",'wb')
 train_output = {
         'pitchnames': pitchnames,
         'groups_size': parameters['groups_size'],

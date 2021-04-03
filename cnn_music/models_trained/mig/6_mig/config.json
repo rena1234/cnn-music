@@ -1,0 +1,23 @@
+{
+	"filters": 64,
+	"filters2": 32,
+	"filters3": 16,
+	"kernel_size": 2,
+	"activation": "relu",
+	"pool_size1": 2,
+	"pool_size2": 4,
+	"pool_size3": 6,
+	"optimizer": "adam",
+	"loss": "mse",
+	"epochs": 1000,
+	"verbose": 0,
+	"dense_units1": 50,
+	"dense_units2": 75,
+	"dense_units3": 100,
+	"groups_size": 100,
+	"dropout1": 0.2,
+	"dropout2": 0.3,
+	"dropout3": 0.4,
+	"dropout4": 0.5,
+	"validation": 0.2
+}

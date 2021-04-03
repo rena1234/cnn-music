@@ -1,0 +1,111 @@
+1_mig
+
+model = Sequential()
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Flatten())
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Dense(n_features))
+model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'])
+model.fit(X.astype(numpy.float32), y.astype(numpy.float32), epochs=parameters['epochs'], verbose=parameters['verbose'])
+
+------------------------------------------------------------------------
+Pasta 2_mig
+
+model = Sequential()
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Flatten())
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Dense(n_features))
+model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'])
+model.fit(X.astype(numpy.float32), y.astype(numpy.float32), epochs=parameters['epochs'], verbose=parameters['verbose'])
+
+------------------------------------------------------------------------
+3_mig
+
+model = Sequential()
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Flatten())
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Dense(n_features))
+model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'])
+model.fit(X.astype(numpy.float32), y.astype(numpy.float32), epochs=parameters['epochs'], verbose=parameters['verbose'])
+
+------------------------------------------------------------------------
+4_mig
+
+model = Sequential()
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Flatten())
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Dense(n_features))
+model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'])
+model.fit(X.astype(numpy.float32), y.astype(numpy.float32), epochs=parameters['epochs'], verbose=parameters['verbose'])
+
+------------------------------------------------------------------------
+5_mig
+
+model = Sequential()
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size1']))
+model.add(Dense(parameters['dense_units3'], activation=parameters['activation']))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size2']))
+model.add(Dense(parameters['dense_units3'], activation=parameters['activation']))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size2']))
+model.add(Flatten())
+model.add(Dense(parameters['dense_units3'], activation=parameters['activation']))
+model.add(Dense(n_features))
+model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'])
+model.fit(X.astype(numpy.float32), y.astype(numpy.float32), epochs=parameters['epochs'], verbose=parameters['verbose'])
+
+
+------------------------------------------------------------------------
+m1
+
+model = Sequential()
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Dropout(0.3))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Conv1D(filters=parameters['filters3'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Conv1D(filters=parameters['filters4'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Flatten())
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Dense(n_features))
+model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'])
+model.fit(X.astype(numpy.float32), y.astype(numpy.float32), epochs=parameters['epochs'], verbose=parameters['verbose'])

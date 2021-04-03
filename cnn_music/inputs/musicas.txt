@@ -1,0 +1,24 @@
+1 - blues for blanche 
+2 - whispering
+3 - outputweimar_fixed_offset
+4 - So what
+5 - test_output_weimar
+6 - ZhangE03_Dataset1
+7 - DexterGordon_Dextivity_FINAL
+8 - beethoven_opus22_4
+9 - Marcha turca, de Mozart
+10 - Für Elise, de Beethoven
+11 - Mistral gagnant de Renaud
+12 - Divenire, de Ludovico Einaudi
+13 - Hit the Road Jack, de Ray Charles
+14 - Hold the line, de Toto
+15 - Changes, de Tupac
+16 - If I ain't got you, de Alicia Keys
+17 - New soul, de Yael Naim
+18 - Someone like you, de Adele
+19 - Comptine d'un autre été, de Yann Tiersen
+20 - Imagine, de John Lennon
+21 - River flows in you,  de Yiruma
+22 - Clair de lune, de Claude Debussy;
+23 - Nocturne Op 9 No 2, de Chopin;
+24 - La Campanella, de Franz Liszt.
