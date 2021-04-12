@@ -7,7 +7,7 @@ import model
 import json
 from numpy import array
 import argparse
-
+from datetime import datetime
 input_parser = argparse.ArgumentParser('Trains a model')
 input_parser.add_argument('-c','--config',
         metavar='config.json',
@@ -27,7 +27,7 @@ input_parser.add_argument('-mp','--midipath',
 args = input_parser.parse_args()
 midipath = args.midipath if args.midipath else 'dataset/*.mid'
 configpath = args.config if args.config else 'configs/config.json'
-outputpath = args.output if args.output else 'models/model'
+outputpath = args.output if args.output else 'models/elementsmaster'
 
 notes = note.get_notes(midipath);
 pitchnames = note.get_pitchnames(notes);
@@ -38,13 +38,16 @@ x, y = model.get_model_inputs(int_notes, sequence_length)
 x = array(x)
 x = x.reshape((x.shape[0]), x.shape[1], 1)
 y = array(y)
+print(datetime.now().time())
 model, history = model.get_model(x, y, parameters)
+print(datetime.now().time())
+model.save('models/model_Master')
+
+output_file = open(outputpath,'wb')
 train_output = {
         'pitchnames': pitchnames,
-        'model': model,
         'groups_size': sequence_length,
-        'history': history
         }
-output_file = open(outputpath,'wb')
+
 pickle.dump(train_output,output_file)
 output_file.close()

@@ -26,7 +26,6 @@ def get_notes(data_path: str) -> List[str]:
         else:
             notes_to_parse = midi.flat.notes
         for element in notes_to_parse:
-            print(element.duration)
             if isinstance(element, note.Note):
                 notes.append(str(element.pitch))
             elif isinstance(element, chord.Chord):

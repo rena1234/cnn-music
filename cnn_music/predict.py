@@ -15,7 +15,7 @@ def predict_next(x_input: ndarray, model: Sequential, set_size: int) -> int:
 
     :return: the predicted next number on series 
     """
-    next_value = model.predict(x_input,verbose =0 )
+    next_value = model.predict(x_input.astype(numpy.float32),verbose =0 )
     next_value = next_value.tolist()[0][0]
     next_value = round(next_value)
     if next_value < 0:

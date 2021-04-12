@@ -31,9 +31,6 @@ def get_model(x: ndarray, y: ndarray, parameters: Dict[str, Union[str,int,float]
     model.add(Activation(parameters['activation']))
     model.add(Dense(1))
     model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'], metrics = ['mae', 'accuracy'])
-    casted_x = [ tf.cast(item, tf.float32) for item in x  ]
-    casted_y = [ tf.cast(item, tf.float32) for item in y  ]
-    #history = model.fit(casted_x, casted_y, epochs=parameters['epochs'], verbose=parameters['verbose'], validation_split=parameters['validation'])
     x = x.astype(np.float32)
     y = y.astype(np.float32)
     history = model.fit(x, y, epochs=parameters['epochs'], verbose=parameters['verbose'], validation_split=parameters['validation'])
