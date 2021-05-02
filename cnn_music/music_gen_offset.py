@@ -28,7 +28,7 @@ input_parser.add_argument('-ml','--model',
         )
 
 args = input_parser.parse_args()
-input_predict = args.midi if args.midi else 'ArtPepper_BluesForBlanche_FINAL.mid'
+input_predict = args.midi if args.midi else 'Zelda_Overworld.mid'
 train_output_file = open(args.model,'rb') if args.model else open("models/modelOffSett",'rb')
 output_file_path = args.output if args.output else 'results/output_offset.mid'
 
@@ -48,8 +48,16 @@ new_series = x_input;
 x_input = array(x_input);
 x_input = x_input.reshape((1, n_steps, n_features))
 last_offset = 0
+print('------------------------')
+print(len(pitchnames))
+print('------------------------')
 for i in range(n_steps):
     yhat = model.predict(x_input.astype(numpy.float32), verbose=0)
+    yhat[0][0] = round(yhat[0][0])
+    if yhat[0][0] >= len(pitchnames):
+        yhat[0][0] = len(pitchnames) -1
+    elif yhat[0][0] < 0:
+        yhat[0][0] = 0
     offset_diff = yhat[0][1] - last_offset
     if(offset_diff < 0):
         yhat[0][1] = last_offset + 0.5
@@ -61,10 +69,13 @@ for i in range(n_steps):
     x_input = array(x_input);
     x_input = x_input.reshape((1, n_steps, n_features))
 
+"""
 int_notes = [ round(prediction[0]) if prediction[0] >= 0 else 0 for prediction in new_series ]
 int_notes = [ n if n < len(pitchnames) else len(pitchnames) -1 for n in int_notes]
+"""
+int_notes = [prediction[0] for prediction in new_series ]
 first_offset = new_series[0][1]
-offsets = [ prediction[1] - first_offset  for prediction in new_series ]
+offsets = [ prediction[1] - first_offset for prediction in new_series ]
 int_to_note = dict((number, note) for number, note in enumerate(pitchnames))
 notes_strs = note.get_note_strings(int_to_note, int_notes)
 notes_list = note.get_notes_chords_list_offset(notes_strs, offsets)
