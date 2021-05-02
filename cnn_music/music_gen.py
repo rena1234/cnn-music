@@ -28,7 +28,8 @@ args = input_parser.parse_args()
 input_predict = args.midi if args.midi else 'inputs/1_input.mid'
 train_output_file = open(args.model,'rb') if args.model else open('models/elementsmaster', 'rb')
 output_file_path = args.output if args.output else 'results/output.mid'
-model = keras.models.load_model("models/model_Master")
+model = keras.models.load_model('models/model')
+models_offset = keras.model.load_model('models_offset/model')
 
 notes = get_notes(input_predict)
 train_output = pickle.load(train_output_file)

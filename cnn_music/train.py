@@ -67,3 +67,12 @@ if not offset:
 
     pickle.dump(train_output,output_file)
     output_file.close()
+else:
+    output_file = open(outputpath + '_offset_info','wb')
+    train_output = {
+            'groups_size': sequence_length,
+            }
+
+    pickle.dump(train_output,output_file)
+    output_file.close()
+
