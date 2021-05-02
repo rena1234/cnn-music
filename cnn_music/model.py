@@ -36,7 +36,7 @@ def get_model(x: ndarray, y: ndarray, parameters: Dict[str, Union[str,int,float]
     history = model.fit(x, y, epochs=parameters['epochs'], verbose=parameters['verbose'], validation_split=parameters['validation'])
     return model, history
 
-def get_model_inputs(int_notes: List[int], sequence_length: int) -> Tuple[List[int], List[int]]:
+def get_model_inputs(input_data: List[Union[int, float]], sequence_length: int) -> Tuple[List[Union[int, float]], List[Union[int, float]]]:
     """
     :param int_notes: sequence of notes converted to integers 
     :param sequence_length: size of the grouped series 
@@ -45,8 +45,8 @@ def get_model_inputs(int_notes: List[int], sequence_length: int) -> Tuple[List[i
     """
     network_input = []
     network_output = []
-    for i in range(0, len(int_notes) - sequence_length):
-        network_input.append(int_notes[i:i + sequence_length])
-        network_output.append(int_notes[i + sequence_length])
+    for i in range(0, len(input_data) - sequence_length):
+        network_input.append(input_data[i:i + sequence_length])
+        network_output.append(input_data[i + sequence_length])
     return network_input, network_output
 

@@ -6,6 +6,35 @@ import glob
 
 from music21 import converter, instrument
 
+def get_notes_info(data_path: str):
+    """
+    :param data_path: path to midis directory 
+
+    :return: List of note strings 
+    """
+    notes_info = {'notes': [], 'offsets': [] };
+    for file in glob.glob(data_path):
+        try:
+            midi = converter.parse(file)
+        except:
+            continue
+        notes_to_parse = None
+        parts = instrument.partitionByInstrument(midi)
+        if parts:
+            notes_to_parse = parts.parts[0].recurse()
+        else:
+            notes_to_parse = midi.flat.notes
+        for element in notes_to_parse:
+            if isinstance(element, note.Note):
+                notes_info['notes'].append(str(element.pitch))
+                notes_info['offsets'].append(element.offset)
+            elif isinstance(element, chord.Chord):
+                notes_info['notes'].append(".".join(str(n) for n in element.normalOrder))
+                notes_info['offsets'].append(element.offset)
+            else:
+                print(element)
+    return notes_info
+
 def get_notes(data_path: str) -> List[str]:
     """
     :param data_path: path to midis directory 
