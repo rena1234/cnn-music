@@ -2,10 +2,8 @@ from numpy import array
 from numpy import hstack
 import numpy
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers import Flatten
-from tensorflow.keras.layers import Conv1D
-from tensorflow.keras.layers import MaxPooling1D
+from tensorflow.keras.layers import Dense, Flatten
+from tensorflow.keras.layers import Conv1D, MaxPooling1D, Dropout
 import note
 from music21 import stream
 import pickle
@@ -55,14 +53,24 @@ X, y = split_sequences(dataset, n_steps)
 n_features = X.shape[2]
 
 model = Sequential()
-model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation'], input_shape=(n_steps, n_features)))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
+model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
+model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
+model.add(Dropout(0.3))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+model.add(Conv1D(filters=parameters['filters3'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
+model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+model.add(Conv1D(filters=parameters['filters3'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
 model.add(MaxPooling1D(pool_size=parameters['pool_size']))
 model.add(Flatten())
 model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
 model.add(Dense(n_features))
 model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'])
 model.fit(X.astype(numpy.float32), y.astype(numpy.float32), epochs=parameters['epochs'], verbose=parameters['verbose'])
-
 model.save('models/modelOffSet')
 
 output_file = open("models/modelOffSett",'wb')

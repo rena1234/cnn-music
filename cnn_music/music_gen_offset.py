@@ -28,7 +28,7 @@ input_parser.add_argument('-ml','--model',
         )
 
 args = input_parser.parse_args()
-input_predict = args.midi if args.midi else 'Zelda_Overworld.mid'
+input_predict = args.midi if args.midi else 'inputs/ArtPepper_BluesForBlanche_FINAL.mid'
 train_output_file = open(args.model,'rb') if args.model else open("models/modelOffSett",'rb')
 output_file_path = args.output if args.output else 'results/output_offset.mid'
 
