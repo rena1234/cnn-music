@@ -44,13 +44,11 @@ x_input_notes = note.get_int_notes(pitchnames, data_input_predict['notes'])
 x_input_ofsets = data_input_predict['offsets']
 x_input = [[x_input_notes[i], x_input_ofsets[i]] for i in range(n_steps)]
 
-new_series = x_input;
-x_input = array(x_input);
+new_series = x_input
+x_input = array(x_input)
 x_input = x_input.reshape((1, n_steps, n_features))
 last_offset = 0
-print('------------------------')
-print(len(pitchnames))
-print('------------------------')
+
 for i in range(n_steps):
     yhat = model.predict(x_input.astype(numpy.float32), verbose=0)
     yhat[0][0] = round(yhat[0][0])
@@ -69,10 +67,6 @@ for i in range(n_steps):
     x_input = array(x_input);
     x_input = x_input.reshape((1, n_steps, n_features))
 
-"""
-int_notes = [ round(prediction[0]) if prediction[0] >= 0 else 0 for prediction in new_series ]
-int_notes = [ n if n < len(pitchnames) else len(pitchnames) -1 for n in int_notes]
-"""
 int_notes = [prediction[0] for prediction in new_series ]
 first_offset = new_series[0][1]
 offsets = [ prediction[1] - first_offset for prediction in new_series ]

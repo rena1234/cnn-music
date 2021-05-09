@@ -79,7 +79,19 @@ def get_int_notes(pitchnames: List[str], notes: List[str]) -> List[int]:
     :return: List of integers representing the notes  
     """
     note_to_int = dict((note, number) for number, note in enumerate(pitchnames))
-    return [note_to_int[char] for char in notes]
+    int_notes = []
+    for char in notes:
+        if note in note_to_int.keys():
+            int_notes.append(note_to_int[char])
+        else:
+            pitchnames_with_note = sorted(pitchnames[:].append(char))
+            index_new_element = pitchnames_with_note.index(char)
+            set_size = len(pitchnames)
+            int_notes.append(index_new_element if index_new_element < set_size else set_size - 1)
+
+    return int_notes
+
+    #return [note_to_int[char] for char in notes]
 
 
 def get_notes_chords_list(
