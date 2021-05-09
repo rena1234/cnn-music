@@ -5,6 +5,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten
 from tensorflow.keras.layers import Conv1D, MaxPooling1D, Dropout
 import note
+from model import get_model_inputs
 from music21 import stream
 import pickle
 import argparse, sys
@@ -42,6 +43,7 @@ pitchnames = note.get_pitchnames(data['notes']);
 in_seq1 = array(note.get_int_notes(pitchnames, data['notes']))
 in_seq2 = array((data['offsets']))
 parameters = json.load(open(configpath));
+"""
 n_steps = parameters['groups_size']
 
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
@@ -49,6 +51,8 @@ in_seq2 = in_seq2.reshape((len(in_seq2), 1))
 dataset = hstack((in_seq1, in_seq2))
 
 X, y = split_sequences(dataset, n_steps)
+"""
+X, y = get_model_inputs(in_seq1, in_seq2, parameters['groups_size'])
 
 n_features = X.shape[2]
 

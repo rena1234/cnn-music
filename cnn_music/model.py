@@ -14,9 +14,7 @@ from tensorflow.keras.layers import Conv1D
 from keras.callbacks import History
 from typing import Tuple, Dict, Union, List
 
-def get_model(
-    x: ndarray, y: ndarray, parameters: Dict[str, Union[str, int, float]]
-) -> Sequential:
+def get_model( x, y, parameters: Dict[str, Union[str, int, float]]) -> Sequential:
 
     """
     :param x: list of the groups with selected size sequences 
@@ -44,40 +42,12 @@ def get_model(
         loss=parameters["loss"],
         metrics=["mae", "accuracy"],
     )
-    """
-    history = model.fit(
-        x,
-        y,
-        epochs=parameters["epochs"],
-        verbose=parameters["verbose"],
-        validation_split=parameters["validation"],
-    )
-    return model, history
-    """
     return model
 
-def get_model_inputs(
-    int_notes: List[int], offsets, sequence_length: int, 
-) -> Tuple[List[int], List[int]]:
-    """
-    :param int_notes: sequence of notes converted to integers 
-    :param sequence_length: size of the grouped series 
+def get_model_inputs(in_seq1, in_seq2, n_steps):
+    in_seq1 = in_seq1.reshape((len(in_seq1), 1))
+    in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+    dataset = hstack((in_seq1, in_seq2))
 
-    :return: tuple with list of series groups, and next value to each group 
-    """
-    """
-    network_input = []
-    network_output = []
-    """
-    network_input = list()
-    network_output = list()
-    for i in range(0, len(int_notes) - sequence_length):
-        notes_sample = int_notes[i : i + sequence_length]
-        offsets_sample = offsets[i : i + sequence_length] 
-        network_input.append([[notes_sample[j], offsets_sample[j]] for j in range(0, sequence_length)])
-        network_output.append([int_notes[i + sequence_length], offsets[i + sequence_length]])
-        """
-        network_input.append(int_notes[i : i + sequence_length])
-        network_output.append(int_notes[i + sequence_length])
-        """
-    return network_input, network_output
+    X, y = split_sequences(dataset, n_steps)
+    return X, y
