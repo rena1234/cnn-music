@@ -27,23 +27,11 @@ def get_notes_info(data_path: str):
             notes_to_parse = midi.flat.notes
         for element in notes_to_parse:
             if isinstance(element, note.Note):
-                print('ADDNOTE')
                 notes_info['notes'].append(str(element.pitch))
                 notes_info['offsets'].append(element.offset)
             elif isinstance(element, chord.Chord):
-                print('ADDNOTE')
-                """
-                notes.append(
-                    (".".join(str(n) for n in element.normalOrder), element.offset)
-                )
-                """
                 notes_info['notes'].append(".".join(str(n) for n in element.normalOrder))
                 notes_info['offsets'].append(element.offset)
-            else:
-                print('elementFALHA-------------')
-                print(element)
-                print('-------------')
-            print('OFFSETADD')
     return notes_info
 
 
