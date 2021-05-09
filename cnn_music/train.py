@@ -6,22 +6,11 @@ from tensorflow.keras.layers import Dense, Flatten
 from tensorflow.keras.layers import Conv1D, MaxPooling1D, Dropout
 import note
 from model import get_model_inputs
+from model import get_model
 from music21 import stream
 import pickle
 import argparse, sys
 import json
-
-def split_sequences(sequences, n_steps):
-    X, y = list(), list()
-    for i in range(len(sequences)):
-        end_ix = i + n_steps
-        if end_ix > len(sequences)-1:
-            break
-        seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
-        X.append(seq_x)
-        y.append(seq_y)
-    return array(X), array(y)
-
 
 input_parser = argparse.ArgumentParser('Trains a model')
 input_parser.add_argument('-c','--config',
@@ -43,31 +32,12 @@ pitchnames = note.get_pitchnames(data['notes']);
 in_seq1 = array(note.get_int_notes(pitchnames, data['notes']))
 in_seq2 = array((data['offsets']))
 parameters = json.load(open(configpath));
-"""
-n_steps = parameters['groups_size']
 
-in_seq1 = in_seq1.reshape((len(in_seq1), 1))
-in_seq2 = in_seq2.reshape((len(in_seq2), 1))
-dataset = hstack((in_seq1, in_seq2))
-
-X, y = split_sequences(dataset, n_steps)
-"""
 X, y = get_model_inputs(in_seq1, in_seq2, parameters['groups_size'])
-
 n_features = X.shape[2]
 
-model = Sequential()
-model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
-model.add(MaxPooling1D(pool_size=parameters['pool_size']))
-model.add(Flatten())
-model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
-model.add(Dense(n_features))
-model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'])
-
-model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'])
-model.fit(X.astype(numpy.float32), y.astype(numpy.float32), epochs=parameters['epochs'], verbose=parameters['verbose'])
+model = get_model(X, y, parameters);
 model.save('models/modelOffSet')
-
 output_file = open("models/modelOffSett",'wb')
 train_output = {
         'pitchnames': pitchnames,

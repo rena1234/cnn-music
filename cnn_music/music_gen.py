@@ -72,7 +72,7 @@ first_offset = new_series[0][1]
 offsets = [ prediction[1] - first_offset for prediction in new_series ]
 int_to_note = dict((number, note) for number, note in enumerate(pitchnames))
 notes_strs = note.get_note_strings(int_to_note, int_notes)
-notes_list = note.get_notes_chords_list_offset(notes_strs, offsets)
+notes_list = note.get_notes_chords_list(notes_strs, offsets)
 
 midi_stream = stream.Stream(notes_list)
 midi_stream.write('midi', fp=output_file_path)
