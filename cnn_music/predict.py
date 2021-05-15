@@ -71,6 +71,4 @@ def get_new_series_offset(size: int, input, model) -> List[int]:
         x_input = new_series
         x_input = array(x_input);
         x_input = x_input.reshape((1,size,1))
-    print("padrao")
-    print(cont)
     return new_series

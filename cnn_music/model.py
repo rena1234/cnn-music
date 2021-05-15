@@ -12,7 +12,7 @@ from typing import Tuple, Dict, Union, List
 import tensorflow as tf
 import numpy as np
 
-def get_model(x: ndarray, y: ndarray, parameters: Dict[str, Union[str,int,float]]) -> (Sequential, History):
+def get_model_note(x: ndarray, y: ndarray, parameters: Dict[str, Union[str,int,float]]) -> (Sequential, History):
     """
     :param x: list of the groups with selected size sequences 
     :param y: array of next values of each squence group
@@ -20,26 +20,40 @@ def get_model(x: ndarray, y: ndarray, parameters: Dict[str, Union[str,int,float]
 
     :return: A tuple with a model and history that can be used to generate graphs
     """
-
-
     model = Sequential()
     model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
-    model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
-    model.add(MaxPooling1D(pool_size=parameters['pool_size']))
-    model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
-    model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
-    model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
-    model.add(Dropout(0.3))
-    model.add(MaxPooling1D(pool_size=parameters['pool_size']))
-    model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
-    model.add(Conv1D(filters=parameters['filters3'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
-    model.add(MaxPooling1D(pool_size=parameters['pool_size']))
-    model.add(Conv1D(filters=parameters['filters3'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
     model.add(MaxPooling1D(pool_size=parameters['pool_size']))
     model.add(Flatten())
     model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
     model.add(Dense(1))
-    model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'], metrics = ['mae', 'accuracy'])
+    model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'])
+    x = x.astype(np.float32)
+    y = y.astype(np.float32)
+    history = model.fit(x, y, epochs=parameters['epochs'], verbose=parameters['verbose'], validation_split=parameters['validation'])
+    return model, history
+
+def get_model_offset(x: ndarray, y: ndarray, parameters: Dict[str, Union[str,int,float]]) -> (Sequential, History):
+    """
+    :param x: list of the groups with selected size sequences 
+    :param y: array of next values of each squence group
+    :param parameters: - dict with the model configs
+
+    :return: A tuple with a model and history that can be used to generate graphs
+    """
+    model = Sequential()
+    model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
+    model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
+    model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+    model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
+    model.add(Conv1D(filters=parameters['filters2'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
+    model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+    model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
+    model.add(Conv1D(filters=parameters['filters'], kernel_size=parameters['kernel_size'], activation=parameters['activation']))
+    model.add(MaxPooling1D(pool_size=parameters['pool_size']))
+    model.add(Flatten())
+    model.add(Dense(parameters['dense_units'], activation=parameters['activation']))
+    model.add(Dense(1))
+    model.compile(optimizer=parameters['optimizer'], loss=parameters['loss'])
     x = x.astype(np.float32)
     y = y.astype(np.float32)
     history = model.fit(x, y, epochs=parameters['epochs'], verbose=parameters['verbose'], validation_split=parameters['validation'])

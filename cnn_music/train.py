@@ -1,12 +1,6 @@
-import pickle
-import argparse, sys
-#from note import get_notes, get_pitchnames, get_int_notes
-#from model import get_model_inputs, get_model
-import note 
-import model 
-import json
+import argparse, sys, pickle, json
+import model, note 
 from numpy import array
-import argparse
 from datetime import datetime
 
 input_parser = argparse.ArgumentParser('Trains a model')
@@ -30,13 +24,14 @@ input_parser.add_argument('-t','--type',
         type=str,
         help='trains offsets instead of notes when set to offset'
         )
+
 args = input_parser.parse_args()
-midipath = args.midipath if args.midipath else 'dataset/*.mid'
+midipath = args.midipath if args.midipath else 'dataset/1 musica/*.mid'
 offset = True if (args.type and args.type == 'offset')  else False
 configpath = args.config if args.config else 'configs/config.json'
-outputpath = args.output if args.output else 'models/model_blues' if not offset else 'models_offset/model_blues'
+outputpath = args.output if args.output else 'models/model_1' if not offset else 'models_offset/model_1'
 
-# notes = note.get_notes(midipath);
+
 data = note.get_notes_info(midipath);
 parameters = json.load(open(configpath));
 sequence_length = parameters['groups_size']
@@ -47,19 +42,16 @@ if not offset:
     pitchnames = note.get_pitchnames(notes);
     int_notes = note.get_int_notes(pitchnames, notes)
     data_list = int_notes
-else:
-    data_list = data['offsets']
 
-x, y = model.get_model_inputs(data_list, sequence_length)
-x = array(x)
-x = x.reshape((x.shape[0]), x.shape[1], 1)
-y = array(y)
-print(datetime.now().time())
-model, history = model.get_model(x, y, parameters)
-print(datetime.now().time())
-model.save(outputpath)
+    x, y = model.get_model_inputs(data_list, sequence_length)
+    x = array(x)
+    x = x.reshape((x.shape[0]), x.shape[1], 1)
+    y = array(y)
+    print(datetime.now().time())
+    model, history = model.get_model_note(x, y, parameters)
+    print(datetime.now().time())
+    model.save(outputpath)
 
-if not offset:
     output_file = open(outputpath + '_notes_info','wb')
     train_output = {
             'pitchnames': pitchnames,
@@ -68,7 +60,19 @@ if not offset:
 
     pickle.dump(train_output,output_file)
     output_file.close()
+
 else:
+    data_list = data['offsets']
+
+    x, y = model.get_model_inputs(data_list, sequence_length)
+    x = array(x)
+    x = x.reshape((x.shape[0]), x.shape[1], 1)
+    y = array(y)
+    print(datetime.now().time())
+    model, history = model.get_model_offset(x, y, parameters)
+    print(datetime.now().time())
+    model.save(outputpath)
+
     output_file = open(outputpath + '_info','wb')
     train_output = {
             
