@@ -1,6 +1,6 @@
 {
-	"filters": 64,
-	"kernel_size": 2,
+	"filters": 256,
+	"kernel_size": 8,
 	"activation": "relu",
 	"pool_size": 2,
 	"optimizer": "adam",
@@ -8,6 +8,6 @@
 	"epochs": 1000,
 	"verbose": 0,
 	"dense_units": 50,
-	"groups_size": 34,
+	"groups_size": 100,
 	"validation": 0.2
 }

@@ -56,11 +56,12 @@ for i in range(n_steps):
         yhat[0][0] = len(pitchnames) -1
     elif yhat[0][0] < 0:
         yhat[0][0] = 0
-    offset_diff = yhat[0][1] - last_offset
-    if(offset_diff < 0):
-        yhat[0][1] = last_offset + 0.5
+    #offset_diff = yhat[0][1] - last_offset
+    if(yhat[0][1] < 0.35):
+        yhat[0][1] = 0.35
+        # yhat[0][1] = last_offset + 0.5
     
-    last_offset = yhat[0][1]
+    #last_offset = yhat[0][1]
     new_series = new_series[1:n_steps]
     new_series.append(yhat[0])
     x_input = new_series
@@ -69,7 +70,8 @@ for i in range(n_steps):
 
 int_notes = [prediction[0] for prediction in new_series ]
 first_offset = new_series[0][1]
-offsets = [ prediction[1] - first_offset for prediction in new_series ]
+#offsets = [ prediction[1] - first_offset for prediction in new_series ]
+offsets = [ prediction[1] for prediction in new_series ]
 int_to_note = dict((number, note) for number, note in enumerate(pitchnames))
 notes_strs = note.get_note_strings(int_to_note, int_notes)
 notes_list = note.get_notes_chords_list(notes_strs, offsets)

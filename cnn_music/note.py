@@ -6,6 +6,13 @@ import glob
 
 from music21 import converter, instrument
 
+def get_first_valid(notes_to_parse):
+    for i, element in enumerate(notes_to_parse):
+        if isinstance(element, note.Note):
+            return(i)
+        elif isinstance(element, chord.Chord):
+            return(i)
+    return None
 
 def get_notes_info(data_path: str):
     """
@@ -25,13 +32,28 @@ def get_notes_info(data_path: str):
             notes_to_parse = parts.parts[0].recurse()
         else:
             notes_to_parse = midi.flat.notes
-        for element in notes_to_parse:
+
+        last_valid = notes_to_parse[get_first_valid(notes_to_parse)]
+        first_valid_appended = False
+        for i, element in enumerate(notes_to_parse):
             if isinstance(element, note.Note):
                 notes_info['notes'].append(str(element.pitch))
-                notes_info['offsets'].append(element.offset)
+                if not first_valid_appended:
+                    notes_info['offsets'].append(0.5)
+                    first_valid_appended = True
+                else:
+                    notes_info['offsets'].append(element.offset - last_valid.offset)
+                last_valid = element
             elif isinstance(element, chord.Chord):
                 notes_info['notes'].append(".".join(str(n) for n in element.normalOrder))
-                notes_info['offsets'].append(element.offset)
+                if not first_valid_appended:
+                    notes_info['offsets'].append(0.5)
+                    first_valid_appended = True
+                else:
+                    notes_info['offsets'].append(element.offset - last_valid.offset)
+                last_valid = element
+
+    print(notes_info['offsets'])
     return notes_info
 
 def get_pitchnames(notes: List[str]) -> List[str]:
@@ -74,11 +96,10 @@ def get_notes_chords_list(
 
     :return: List of music21 Chords and notes 
     """
-    offset = 0
     output = []
 
+    last_offset = 0
     for pattern, offset in zip(note_strings, offsets):
-        print(offset)
         if ("." in pattern) or pattern.isdigit():
             notes_in_chord = pattern.split(".")
             notes = []
@@ -87,12 +108,14 @@ def get_notes_chords_list(
                 new_note.storedInstrument = instrument.Piano()
                 notes.append(new_note)
             new_chord = chord.Chord(notes)
-            new_chord.offset = offset
+            new_chord.offset = last_offset + offset
+            last_offset = last_offset + offset
             output.append(new_chord)
 
         else:
             new_chord = note.Note(pattern)
-            new_chord.offset = offset
+            new_chord.offset = last_offset + offset
+            last_offset = last_offset + offset
             new_chord.storedInstrument = instrument.Piano()
             output.append(new_chord)
 
